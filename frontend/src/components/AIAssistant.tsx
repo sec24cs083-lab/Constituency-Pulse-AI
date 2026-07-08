@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Bot, X, Send, Sparkles, XCircle } from 'lucide-react';
+import { Bot, X, Send, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const SUGGESTIONS = [
@@ -10,7 +10,7 @@ const SUGGESTIONS = [
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ role: 'user'|'ai'; content: string }[]>([
+  const [messages, setMessages] = useState<{ role: 'user' | 'ai'; content: string }[]>([
     { role: 'ai', content: "Hello! I am your Constituency AI Assistant. How can I help you analyze the data today?" }
   ]);
   const [input, setInput] = useState('');
@@ -27,7 +27,7 @@ export default function AIAssistant() {
 
   const handleSend = (text: string) => {
     if (!text.trim()) return;
-    
+
     setMessages(prev => [...prev, { role: 'user', content: text }]);
     setInput('');
     setIsTyping(true);
@@ -35,7 +35,7 @@ export default function AIAssistant() {
     // Mock AI delay and response
     setTimeout(() => {
       let reply = "Based on the deterministic scoring model, projects addressing critical infrastructure gaps in dense populations are prioritized. Would you like a detailed breakdown of a specific ward?";
-      
+
       if (text.toLowerCase().includes('water')) {
         reply = "The Hadapsar Piped Water project is ranked first because water access in that ward is only 41%, and it affects 38,000 residents, giving it a critical urgency score.";
       } else if (text.toLowerCase().includes('hadapsar')) {
@@ -85,16 +85,15 @@ export default function AIAssistant() {
             <div className="flex-1 overflow-y-auto p-4 bg-slate-50 space-y-4">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
-                    msg.role === 'user' 
-                      ? 'bg-[#175e35] text-white rounded-br-none' 
+                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.role === 'user'
+                      ? 'bg-[#175e35] text-white rounded-br-none'
                       : 'bg-white border border-slate-200 text-slate-700 rounded-bl-none shadow-sm'
-                  }`}>
+                    }`}>
                     {msg.content}
                   </div>
                 </div>
               ))}
-              
+
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="bg-white border border-slate-200 p-3 rounded-2xl rounded-bl-none shadow-sm flex gap-1">
@@ -124,7 +123,7 @@ export default function AIAssistant() {
 
             {/* Input */}
             <div className="p-3 bg-white border-t border-slate-100">
-              <form 
+              <form
                 onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
                 className="flex items-center gap-2"
               >
