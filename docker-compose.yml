@@ -18,39 +18,21 @@ services:
       timeout: 5s
       retries: 10
 
-  backend:
+  web:
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
-    container_name: cp_backend
+    container_name: cp_unified_web
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-cpuser}:${POSTGRES_PASSWORD:-cppassword}@db:5432/${POSTGRES_DB:-constituency_pulse}
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
-      SEED_ON_STARTUP: "true"
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      CORS_ORIGINS: "*"
+      PORT: "8000"
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: cp_frontend
-    environment:
-      VITE_API_URL: http://localhost:8000
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: npm run dev -- --host 0.0.0.0
 
 volumes:
   pgdata:

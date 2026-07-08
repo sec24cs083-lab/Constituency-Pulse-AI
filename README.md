@@ -1,180 +1,73 @@
-# People's Priorities
-### AI-Powered Constituency Decision Intelligence Platform
-> Submitted to **Google Cloud Build with AI: Code for Communities**
+# People's Priorities (மக்களின் முன்னுரிமைகள்)
+AI-Powered Constituency Decision Intelligence Platform
 
-**People's Priorities** transforms scattered citizen feedback into evidence-based, budget-aware, explainable development project recommendations for Members of Parliament (India).
+## Architecture Overview
+This project uses a unified container architecture, serving both the React frontend and FastAPI backend from a single port (8000).
 
----
+- **Frontend:** React, Vite, Tailwind CSS (Mobile-First)
+- **Backend:** FastAPI, Python, SQLAlchemy, SQLite
+- **Data Science:** Integer Linear Programming (PuLP), DBSCAN clustering
+- **AI Integration:** Google Gemini 1.5 Flash (NLP, Classification, Translation)
 
-## Live Demo
+## Local Development (Separated)
 
-| Service | URL |
-|---|---|
-| MP Dashboard | `http://localhost:5173` |
-| Citizen Transparency View | `http://localhost:5173/citizen` |
-| API Docs (Swagger) | `http://localhost:8000/docs` |
-| API Root | `http://localhost:8000/` |
+If you are developing locally, you can run the frontend and backend servers separately:
 
----
-
-## Architecture — Where AI vs. Classical Models are Used
-
-This is the **core differentiator**: every decision is traceable. We use the right tool for each layer.
-
-| Layer | Tool | Why NOT an LLM |
-|---|---|---|
-| **Priority scoring** | Deterministic weighted formula | Auditable, explainable, no hallucination |
-| **Budget allocation** | PuLP Integer Linear Programming (0/1 knapsack) | Optimal, reproducible, verifiable |
-| **Hotspot detection** | scikit-learn DBSCAN clustering | Transparent algorithm, configurable params |
-| **Delay simulation** | Rule-based formula (cost escalation + urgency compounding) | Interpretable coefficients |
-| **Scheme matching** | Rule-based eligibility checker | Exact criteria matching |
-| **Complaint classification** | Claude (structured JSON output) | Language understanding required |
-| **Translation** | Claude | Multilingual NLP (Hindi/Marathi/English) |
-| **Entity extraction** | Claude | Named-entity recognition |
-| **Executive summary** | Claude (grounded on score_breakdown JSON) | Natural language generation from data |
-
-### Priority Score Formula
-
-```
-score = w1*urgency + w2*population_affected + w3*cost_efficiency + w4*delay_risk + w5*scheme_fundability
-```
-
-Default weights (visible in API response, configurable):
-
-| Factor | Weight | Normalization |
-|---|---|---|
-| urgency | 25% | complaint urgency level + volume boost |
-| population_affected | 20% | per 100,000 reference population |
-| cost_efficiency | 20% | inverse cost-per-person (lower = better) |
-| delay_risk | 20% | high/medium/low mapped to 0.9/0.6/0.3 |
-| scheme_fundability | 15% | scheme co-funding % |
-
-**Claude NEVER computes the score.** It only explains a score produced by this formula.
-
----
-
-## Tech Stack
-
-### Backend (Python FastAPI)
-- **FastAPI** + **SQLAlchemy** + **PostgreSQL** — API and persistence
-- **PuLP** — budget optimization (ILP solver)
-- **scikit-learn** — DBSCAN hotspot detection
-- **Anthropic Claude** — NLP (classification, translation, summarization) only
-- **Alembic** — DB migrations
-
-### Frontend (React + TypeScript + Vite + Tailwind CSS)
-- **React Router** — SPA routing
-- **Leaflet** / **react-leaflet** — interactive map with ward boundaries
-- **Recharts** — explainable score breakdown charts
-- **Lucide React** — icons
-- **Axios** — typed API client
-
-### Infrastructure
-- **Docker Compose** — orchestrates PostgreSQL, FastAPI, and Vite dev server
-- **PostgreSQL 15** — primary data store
-
----
-
-## Data Sources
-
-> **All government data is SYNTHETIC** — structured to mirror real datasets for demonstration. No real citizen PII is used.
-
-| Data | Source Mirrored | Status |
-|---|---|---|
-| Ward demographics (population, literacy, SC/ST%) | Census 2011 ward-level | **Synthetic** |
-| Road coverage | PMGSY road connectivity data | **Synthetic** |
-| Water access | Jal Jeevan Mission household data | **Synthetic** |
-| MPLADS budget | MPLADS guidelines (₹5 Cr/MP/year) | **Synthetic** |
-| Government schemes | JJM, PMGSY, PMAY, SBM-U, RSBY, SSA, DDUGJY | **Synthetic structure** |
-| Complaints | Demo complaints for Pune Urban constituency | **Synthetic** |
-
----
-
-## Setup & Running
-
-### Prerequisites
-- Docker Desktop
-- (Optional) Anthropic Claude API key for AI summaries
-
-### 1. Clone & configure
-
-```bash
-cp .env.example .env
-# Edit .env — add ANTHROPIC_API_KEY if you have one
-```
-
-### 2. Start everything
-
-```bash
-docker-compose up --build
-```
-
-Wait ~30 seconds for PostgreSQL to initialize and the backend to seed the database.
-
-### 3. Open the app
-
-- **MP Dashboard**: http://localhost:5173
-- **Citizen View**: http://localhost:5173/citizen
-- **API Docs**: http://localhost:8000/docs
-
-### Running without Docker (development)
-
-**Backend:**
+### Backend
 ```bash
 cd backend
-python -m venv venv && venv\Scripts\activate  # Windows
+python -m venv venv
+# On Windows: .\venv\Scripts\activate
+# On Mac/Linux: source venv/bin/activate
 pip install -r requirements.txt
-# Set DATABASE_URL in .env pointing to a local PostgreSQL instance
-uvicorn main:app --reload
+uvicorn main:app --reload --port 8000
 ```
 
-**Frontend:**
+### Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
----
+## Production Deployment (Single Docker Container)
 
-## Key API Endpoints
+The platform is designed to be deployed as a single, optimized Docker container to services like **Google Cloud Run**, **Render**, or **Railway**.
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/projects/` | Ranked project list with score_breakdown |
-| GET | `/projects/{id}` | Full project detail + complaints |
-| GET | `/projects/{id}/score-breakdown` | Explainable score with formula |
-| POST | `/budget/optimize` | Run PuLP optimizer |
-| POST | `/simulation/delay/{id}` | Delay impact projection |
-| GET | `/wards/hotspots/all` | DBSCAN cluster results |
-| GET | `/schemes/` | Government scheme catalog |
-| POST | `/complaints/` | Submit + auto-classify complaint |
-| POST | `/summary/{id}` | Generate Claude AI summary |
+### Docker Build
+```bash
+# Build the unified container
+docker build -t constituency-pulse .
 
----
+# Run locally
+docker run -p 8000:8000 -e GEMINI_API_KEY=your_key -e CORS_ORIGINS="*" constituency-pulse
+```
 
-## Sample Constituency: Pune Urban
+### Google Cloud Run Deployment
 
-| Item | Detail |
-|---|---|
-| MP | Aditi Sharma (fictional) |
-| Wards | 6 (Kasba Peth, Shivajinagar, Hadapsar, Kondhwa, Kothrud, Wanowrie) |
-| Projects | 8 proposed, scored, and ranked |
-| Complaints | 10 multi-lingual sample complaints |
-| MPLADS Budget | ₹500L total, ₹380L available |
-| Top Priority | Hadapsar Piped Water (score: 87.4/100) |
+1. Ensure you have the `gcloud` CLI installed.
+2. Build and submit your image to Google Container Registry (or Artifact Registry):
+```bash
+gcloud builds submit --tag gcr.io/[PROJECT-ID]/constituency-pulse
+```
+3. Deploy to Cloud Run:
+```bash
+gcloud run deploy constituency-pulse \
+  --image gcr.io/[PROJECT-ID]/constituency-pulse \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars="GEMINI_API_KEY=your_key,CORS_ORIGINS=*"
+```
 
----
+### Environment Variables
+- `GEMINI_API_KEY`: Required for NLP summarization and classification.
+- `CORS_ORIGINS`: Comma-separated list of allowed origins (e.g. `http://localhost:5173,https://my-app.com`). Defaults to `http://localhost:5173,http://localhost:3000`.
+- `PORT`: Automatically set by Cloud Run, defaults to `8000`.
+- `DATABASE_URL`: (Optional) Provide a PostgreSQL connection string. Defaults to a local SQLite database that resets on container restart.
 
-## AI Guardrails
+## Troubleshooting
+- **Frontend not loading on `/`:** Ensure the Docker multi-stage build successfully ran `npm run build` and copied the `dist` folder to `/app/static` in the backend.
+- **Routing Issues (404 on refresh):** FastAPI acts as a SPA router. All routes not prefixed with `/api` return `index.html`.
+- **API CORS Errors:** Ensure the `CORS_ORIGINS` environment variable includes your frontend domain.
 
-1. **Claude never scores.** The priority formula runs first; Claude only explains the result.
-2. **Grounded summaries.** Claude receives a structured JSON payload (score_breakdown, evidence, scheme match) and is instructed via system prompt to not invent any numbers not present.
-3. **Input audit log.** Every Claude call stores the exact input payload in `ai_summary_input_log` for auditability.
-4. **Graceful degradation.** If `ANTHROPIC_API_KEY` is not set, the app uses deterministic mock summaries — all other features (scoring, optimization, simulation, map) work fully.
-
----
-
-## License
-
-MIT

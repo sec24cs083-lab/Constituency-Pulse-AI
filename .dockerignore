@@ -1,0 +1,23 @@
+# Node / Frontend
+node_modules/
+dist/
+npm-debug.log
+.DS_Store
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.venv/
+env/
+.env
+
+# Git
+.git
+.gitignore
+
+# SQLite databases (if local)
+*.db
+*.sqlite3

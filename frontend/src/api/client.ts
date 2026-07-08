@@ -4,7 +4,9 @@ import type {
   OptimizationResult, DelaySimulation, HotspotResult, AISummaryResult,
 } from '../types';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// In production (when served by FastAPI), this will hit the same domain.
+// In development, VITE_API_URL can be set to http://localhost:8000/api
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({
   baseURL: BASE_URL,
