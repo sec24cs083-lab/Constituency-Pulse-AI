@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: cp_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-cpuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cppassword}
+      POSTGRES_DB: ${POSTGRES_DB:-constituency_pulse}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cpuser} -d ${POSTGRES_DB:-constituency_pulse}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cp_backend
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-cpuser}:${POSTGRES_PASSWORD:-cppassword}@db:5432/${POSTGRES_DB:-constituency_pulse}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      SEED_ON_STARTUP: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cp_frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0
+
+volumes:
+  pgdata:

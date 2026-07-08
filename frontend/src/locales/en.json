@@ -1,0 +1,40 @@
+{
+  "sidebar": {
+    "dashboard": "MP Dashboard",
+    "citizenPortal": "Citizen Portal",
+    "map": "Map & Hotspots"
+  },
+  "dashboard": {
+    "title": "People's Priorities",
+    "budgetOptimizer": "Budget Optimizer (PuLP)",
+    "availableBudget": "Available Budget (₹ Lakhs)",
+    "reOptimize": "Re-Optimize",
+    "projects": "Projects",
+    "priorityScore": "Priority Score",
+    "cost": "Cost",
+    "lakhs": "Lakhs",
+    "population": "Population",
+    "delayRisk": "Delay Risk",
+    "schemes": "Schemes"
+  },
+  "citizen": {
+    "title": "Citizen Transparency Portal",
+    "subtitle": "Track how development funds are being prioritized in your constituency based on evidence and public need.",
+    "budgetUsed": "Budget Allocated",
+    "projectsApproved": "Projects Approved",
+    "approvedProjects": "Approved Projects Feed",
+    "whyPrioritized": "Why was this prioritized?"
+  },
+  "project": {
+    "scoreBreakdown": "Score Breakdown",
+    "schemeMatch": "Scheme Matching",
+    "delaySimulator": "Delay Simulator",
+    "aiSummary": "AI Summary",
+    "costEfficiency": "Cost Efficiency",
+    "urgency": "Urgency",
+    "populationAffected": "Population Affected",
+    "monthsDelay": "Months Delayed",
+    "simulatedCost": "Simulated Inflated Cost",
+    "generateSummary": "Generate Claude Briefing"
+  }
+}

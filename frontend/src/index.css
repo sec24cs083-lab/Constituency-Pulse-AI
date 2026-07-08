@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ── Design Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-brand: #175e35;
+  --text-brand: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.8);
+  --border-subtle: rgba(148, 163, 184, 0.2);
+  --border-medium: rgba(148, 163, 184, 0.4);
+
+  --accent-blue: #2563eb;
+  --accent-violet: #7c3aed;
+  --accent-emerald: #10b981;
+  --accent-amber: #d97706;
+  --accent-rose: #e11d48;
+  --accent-cyan: #06b6d4;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --score-high: #10b981;
+  --score-medium: #f59e0b;
+  --score-low: #f43f5e;
+
+  --category-water: #06b6d4;
+  --category-roads: #8b5cf6;
+  --category-health: #f43f5e;
+  --category-education: #f59e0b;
+  --category-sanitation: #10b981;
+  --category-electricity: #fbbf24;
+  --category-housing: #a78bfa;
+
+  --sidebar-width: 240px;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: rgba(99, 130, 201, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(99, 130, 201, 0.5); }
+
+/* ── Glass Card ────────────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card-hover {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-medium);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Score Badge ───────────────────────────────────────────────────────────── */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.score-badge.high { background: rgba(16, 185, 129, 0.15); color: var(--score-high); border: 2px solid rgba(16, 185, 129, 0.4); }
+.score-badge.medium { background: rgba(245, 158, 11, 0.15); color: var(--score-medium); border: 2px solid rgba(245, 158, 11, 0.4); }
+.score-badge.low { background: rgba(244, 63, 94, 0.15); color: var(--score-low); border: 2px solid rgba(244, 63, 94, 0.4); }
+
+/* ── Category Chips ────────────────────────────────────────────────────────── */
+.category-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.chip-water { background: rgba(6, 182, 212, 0.15); color: var(--category-water); border: 1px solid rgba(6, 182, 212, 0.3); }
+.chip-roads { background: rgba(139, 92, 246, 0.15); color: var(--category-roads); border: 1px solid rgba(139, 92, 246, 0.3); }
+.chip-health { background: rgba(244, 63, 94, 0.15); color: var(--category-health); border: 1px solid rgba(244, 63, 94, 0.3); }
+.chip-education { background: rgba(245, 158, 11, 0.15); color: var(--category-education); border: 1px solid rgba(245, 158, 11, 0.3); }
+.chip-sanitation { background: rgba(16, 185, 129, 0.15); color: var(--category-sanitation); border: 1px solid rgba(16, 185, 129, 0.3); }
+.chip-electricity { background: rgba(251, 191, 36, 0.15); color: var(--category-electricity); border: 1px solid rgba(251, 191, 36, 0.3); }
+.chip-housing { background: rgba(167, 139, 250, 0.15); color: var(--category-housing); border: 1px solid rgba(167, 139, 250, 0.3); }
+.chip-other { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
+
+/* ── Urgency indicators ─────────────────────────────────────────────────────── */
+.urgency-critical { color: #f43f5e; }
+.urgency-high { color: #fb923c; }
+.urgency-medium { color: #f59e0b; }
+.urgency-low { color: #10b981; }
+
+/* ── Delay Risk ─────────────────────────────────────────────────────────────── */
+.risk-high { color: #f43f5e; background: rgba(244, 63, 94, 0.1); }
+.risk-medium { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+.risk-low { color: #10b981; background: rgba(16, 185, 129, 0.1); }
+
+/* ── Animated gradient bg ──────────────────────────────────────────────────── */
+.gradient-bg {
+  background: linear-gradient(135deg, #0a0e1a 0%, #0d1528 40%, #0a1020 100%);
+}
+
+/* ── Shimmer loading ────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ── Fade-in animation ──────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ── Pulse dot ──────────────────────────────────────────────────────────────── */
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulseDot 2s infinite;
+}
+
+/* ── Progress bar ────────────────────────────────────────────────────────────── */
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Button ──────────────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+  color: white;
+}
+
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(79, 142, 247, 0.4); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover { border-color: var(--border-medium); color: var(--text-primary); background: rgba(255,255,255,0.04); }
+
+/* ── Stat card ───────────────────────────────────────────────────────────────── */
+.stat-card {
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--border-medium); }
+
+/* ── Section header ──────────────────────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+/* ── Leaflet overrides ───────────────────────────────────────────────────────── */
+.leaflet-container {
+  background: var(--bg-primary) !important;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-tile { filter: brightness(0.85) saturate(0.7) hue-rotate(200deg); }
+
+.leaflet-popup-content-wrapper {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-medium) !important;
+  border-radius: 10px !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important;
+}
+
+.leaflet-popup-tip { background: var(--bg-card) !important; }
+
+/* ── Drawer ──────────────────────────────────────────────────────────────────── */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 40;
+  animation: fadeIn 0.2s ease;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(600px, 92vw);
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-subtle);
+  z-index: 50;
+  overflow-y: auto;
+  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Recharts overrides ──────────────────────────────────────────────────────── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--border-subtle) !important;
+}
+
+.recharts-text { fill: var(--text-secondary) !important; font-size: 11px !important; }

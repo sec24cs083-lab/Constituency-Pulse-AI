@@ -1,0 +1,40 @@
+{
+  "sidebar": {
+    "dashboard": "முகப்பு",
+    "citizenPortal": "குடிமகன் தளம்",
+    "map": "வரைபடம்"
+  },
+  "dashboard": {
+    "title": "மக்களின் முன்னுரிமைகள்",
+    "budgetOptimizer": "பட்ஜெட் உகப்பாக்கம்",
+    "availableBudget": "கிடைக்கக்கூடிய பட்ஜெட் (₹ லட்சம்)",
+    "reOptimize": "மீண்டும் உகப்பாக்கு",
+    "projects": "திட்டங்கள்",
+    "priorityScore": "முன்னுரிமை மதிப்பெண்",
+    "cost": "செலவு",
+    "lakhs": "லட்சம்",
+    "population": "மக்கள் தொகை",
+    "delayRisk": "தாமத ஆபத்து",
+    "schemes": "திட்டங்கள்"
+  },
+  "citizen": {
+    "title": "குடிமகன் வெளிப்படைத்தன்மை தளம்",
+    "subtitle": "உங்கள் தொகுதியில் வளர்ச்சி நிதி எவ்வாறு பயன்படுத்தப்படுகிறது என்பதை கண்காணிக்கவும்.",
+    "budgetUsed": "பட்ஜெட் ஒதுக்கப்பட்டுள்ளது",
+    "projectsApproved": "திட்டங்கள் அங்கீகரிக்கப்பட்டுள்ளன",
+    "approvedProjects": "அங்கீகரிக்கப்பட்ட திட்டங்கள்",
+    "whyPrioritized": "ஏன் முன்னுரிமை அளிக்கப்பட்டது?"
+  },
+  "project": {
+    "scoreBreakdown": "மதிப்பெண் விவரம்",
+    "schemeMatch": "அரசு திட்டங்கள்",
+    "delaySimulator": "தாமத சிமுலேட்டர்",
+    "aiSummary": "AI சுருக்கம்",
+    "costEfficiency": "செலவு திறன்",
+    "urgency": "அவசரம்",
+    "populationAffected": "பாதிக்கப்பட்ட மக்கள்",
+    "monthsDelay": "தாமதமான மாதங்கள்",
+    "simulatedCost": "மதிப்பிடப்பட்ட செலவு",
+    "generateSummary": "சுருக்கத்தை உருவாக்கு"
+  }
+}
